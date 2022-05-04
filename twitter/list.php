@@ -43,7 +43,7 @@ require_once 'functions.php';
                     <span><?php echo $tweet->user->screenName ?><br /></span>
                     <span><?php echo $tweet->like ?><br /></span>
 
-                    <?php if (isset($_SESSION['loggedUser']) && $_SESSION['loggedUser'] === $tweet->user->username): ?>
+                    <?php if (isset($_SESSION['loggedUser']) && $_SESSION['loggedUser'] === $tweet->user->username) : ?>
                         <a href="/twitter/delete_tweet.php?id=<?php echo $tweet->id ?>">Supprimer</a>
                         <a href="/twitter/update_tweet.php?id=<?php echo $tweet->id ?>">Modifier</a>
                     <?php endif; ?>
@@ -60,7 +60,13 @@ require_once 'functions.php';
 
     <script type="application/javascript">
         const like = (id) => {
-            console.log(id);
+            fetch(`/twitter/like_tweet.php?id=${id}`)
+            .then((Response) => {
+                return Response.json();
+            })
+            .then((json) => {
+                console.log(json.like);
+            });
         }
     </script>
 
