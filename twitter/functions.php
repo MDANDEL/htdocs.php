@@ -16,7 +16,7 @@ function getDb(): PDO
 function getTweets(): array
 {
     $db = getDb();
-    $stmt = $db->prepare('SELECT * FROM tweet WHERE is_deleted = 0');
+    $stmt = $db->prepare('SELECT * FROM tweet WHERE is_deleted = 0 ORDER BY id DESC');
     $stmt->execute();
 
     $tweets = $stmt->fetchAll();
@@ -24,6 +24,7 @@ function getTweets(): array
 
     foreach ($tweets as $tweet) {
         $validTweet[] = new Tweet(
+            $tweet['id'],
             $tweet['message'],
             getUser($tweet['id_user']),
             $tweet['likes'],
@@ -32,6 +33,29 @@ function getTweets(): array
     }
 
     return $validTweet;
+}
+
+function getTweet(int $id): ?Tweet
+{
+    $db = getDb();
+    $stmt = $db->prepare('SELECT * FROM tweet WHERE id = :id');
+    $stmt->execute(
+        ['id' => $id]
+    );
+
+    $tweet = $stmt->fetch();
+
+
+    if ($tweet) {
+
+        return new Tweet(
+            $tweet['id'],
+            $tweet['message'],
+            getUser($tweet['id_user']),
+            $tweet['likes'],
+            !!$tweet['is_deleted'],
+        );
+    }
 }
 
 function getUser(int $id): ?User
@@ -51,7 +75,8 @@ function getUser(int $id): ?User
     );
 }
 
-function authUser (string $username, string $password): ?User {
+function authUser(string $username, string $password): ?User
+{
     $db = getDb();
     $stmt = $db->prepare('SELECT * FROM user WHERE username = :username AND password = :password');
     $stmt->execute([
@@ -62,7 +87,7 @@ function authUser (string $username, string $password): ?User {
     $user = $stmt->fetch();
 
     if ($user) {
-        return new User (
+        return new User(
             $user['screen_name'],
             $user['username'],
             $user['password']
@@ -72,10 +97,38 @@ function authUser (string $username, string $password): ?User {
     return null;
 }
 
-function createTweet (string $message, string $username): void {
+function createTweet(string $message, string $username): void
+{
     $db = getDb();
     $stmt = $db->prepare("
     INSERT INTO tweet (message, likes, is_deleted, id_user)
     VALUES(:message, 0, 0, (SELECT id FROM user WHERE username = :username LIMIT 1));");
-    $stmt->execute(['message'=>$message, 'username'=>$username]);
+    $stmt->execute(['message' => $message, 'username' => $username]);
+}
+
+function deleteTweet(int $id, string $username): void
+{
+    $db = getDb();
+    $stmt = $db->prepare("
+    DELETE FROM tweet 
+    WHERE id = :id
+    AND id_user = (SELECT id FROM user WHERE username = :username LIMIT 1);");
+    $stmt->execute([
+        'id' => $id,
+        'username' => $username,
+    ]);
+}
+
+function updateTweet(int $id, string $message, string $username): void {
+    $db = getDb();
+    $stmt = $db->prepare("
+    UPDATE tweet set message = :message
+    WHERE id_user = (SELECT id FROM user WHERE username = :username LIMIT 1)
+    AND id = :id;");
+    $stmt->execute([
+        'message' => $message,
+        'username' => $username,
+        'id' => $id,
+    ]);
+
 }

@@ -27,7 +27,7 @@ require_once 'functions.php';
             <button type="submit">Envoyer mon tweet</button>
         </form>
     <?php endif; ?>
-    
+
 
     <?php if (isset($_SESSION['loggedUser']) && $_SESSION['loggedUser']) : ?>
 
@@ -39,9 +39,11 @@ require_once 'functions.php';
             <?php foreach (getTweets() as $tweet) : ?>
                 <?php /** @var $tweet Tweet */ ?>
                 <article>
-                    <p><?php echo $tweet->getMessage() ?></p>
+                    <p><?php echo nl2br(htmlspecialchars($tweet->getMessage()))?></p>
                     <span><?php echo $tweet->user->screenName ?><br /></span>
                     <span><?php echo $tweet->like ?><br /></span>
+                    <a href="/twitter/delete_tweet.php?id=<?php echo $tweet->id?>">Supprimer</a>
+                    <a href="/twitter/update_tweet.php?id=<?php echo $tweet->id?>">Modifier</a>
                 </article>
                 <hr />
             <?php endforeach; ?>
