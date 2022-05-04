@@ -39,18 +39,31 @@ require_once 'functions.php';
             <?php foreach (getTweets() as $tweet) : ?>
                 <?php /** @var $tweet Tweet */ ?>
                 <article>
-                    <p><?php echo nl2br(htmlspecialchars($tweet->getMessage()))?></p>
+                    <p><?php echo nl2br(htmlspecialchars($tweet->getMessage())) ?></p>
                     <span><?php echo $tweet->user->screenName ?><br /></span>
                     <span><?php echo $tweet->like ?><br /></span>
-                    <a href="/twitter/delete_tweet.php?id=<?php echo $tweet->id?>">Supprimer</a>
-                    <a href="/twitter/update_tweet.php?id=<?php echo $tweet->id?>">Modifier</a>
+
+                    <?php if (isset($_SESSION['loggedUser']) && $_SESSION['loggedUser'] === $tweet->user->username): ?>
+                        <a href="/twitter/delete_tweet.php?id=<?php echo $tweet->id ?>">Supprimer</a>
+                        <a href="/twitter/update_tweet.php?id=<?php echo $tweet->id ?>">Modifier</a>
+                    <?php endif; ?>
+                    <button onclick="like(<?php echo $tweet->id ?>)">
+                        Like
+                    </button>
                 </article>
                 <hr />
             <?php endforeach; ?>
         </section>
 
         <?php include 'include/footer.php' ?>
-    <?php endif; ?> 
+    <?php endif; ?>
+
+    <script type="application/javascript">
+        const like = (id) => {
+            console.log(id);
+        }
+    </script>
+
 
 </body>
 

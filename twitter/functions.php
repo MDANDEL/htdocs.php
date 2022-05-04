@@ -132,3 +132,14 @@ function updateTweet(int $id, string $message, string $username): void {
     ]);
 
 }
+
+function likeTweet (int $id): void {
+    $db = getDb();
+    $stmt = $db->prepare("
+    UPDATE tweet 
+    SET likes = likes + 1
+    WHERE id = :id;");
+    $stmt->execute([
+        'id' => $id,
+    ]);
+}
