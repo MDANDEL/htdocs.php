@@ -20,6 +20,16 @@ require_once 'functions.php';
     <h1>Twitter</h1>
 
     <?php if (isset($_SESSION['loggedUser']) && $_SESSION['loggedUser']) : ?>
+        <form action="/twitter/create_submit.php" method="post">
+            <label for="message">Mon message</label>
+            <textarea name="message" id="message"></textarea>
+
+            <button type="submit">Envoyer mon tweet</button>
+        </form>
+    <?php endif; ?>
+    
+
+    <?php if (isset($_SESSION['loggedUser']) && $_SESSION['loggedUser']) : ?>
 
         <p>
             Bonjour <?php echo $_SESSION['loggedUser']; ?>
@@ -38,17 +48,7 @@ require_once 'functions.php';
         </section>
 
         <?php include 'include/footer.php' ?>
-    <?php endif; ?>
-
-    <?php if (isset($_SESSION['loggedUser']) && $_SESSION['loggedUser']) : ?>
-        <form action="/twitter/create_submit.php" method="post">
-            <label for="message">Mon message</label>
-            <textarea name="message" id="message"></textarea>
-
-            <button type="submit">Envoyer mon tweet</button>
-        </form>
-    <?php endif; ?>
- 
+    <?php endif; ?> 
 
 </body>
 

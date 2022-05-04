@@ -76,6 +76,6 @@ function createTweet (string $message, string $username): void {
     $db = getDb();
     $stmt = $db->prepare("
     INSERT INTO tweet (message, likes, is_deleted, id_user)
-    VALUES(:message, 0, 0, (SELECT id FROM user WHERE username = : username LIMIT 1));");
+    VALUES(:message, 0, 0, (SELECT id FROM user WHERE username = :username LIMIT 1));");
     $stmt->execute(['message'=>$message, 'username'=>$username]);
 }
