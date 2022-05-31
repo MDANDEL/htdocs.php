@@ -7,7 +7,7 @@
     
     @foreach($products as $product)
         <strong>{{ $product->name }}</strong>
-        <p>{{ $product->price }}</p>
+        <p>{{ $product->price / 100 }} €</p>
         <a href="{{ route('products.show', ['product' => $product]) }}">Détails de l'article</a>
         <hr>
     @endforeach
