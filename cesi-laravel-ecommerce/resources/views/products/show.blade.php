@@ -14,7 +14,7 @@
     </div>
     <p>{{ $product->description }}</p>
     <p>{{ $product->price / 100 }} €</p>
-    <img src= '{{ $product->image }}' alt="imageProduct">
+    <img src= '{{ asset($product->image) }}' alt="imageProduct">
     <hr>
     <br>
 @endsection

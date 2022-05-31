@@ -35,6 +35,8 @@ Route::put('/products/{product}', [ProductController::class, 'update'])->name('p
 
 Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');*/
 
+Route::get('/products/{product}/download', [ProductController::class, 'download'])->name('products.download');
+
 
 
 

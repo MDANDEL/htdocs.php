@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
+use App\Mail\ProductInfo;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -48,7 +52,7 @@ class ProductController extends Controller
         if ($request->hasFile('image')) {
             $request->file('image')->store('public/products');
 
-            $product->image = asset('storage/products/'.$request->file('image')->hashName());
+            $product->image = 'storage/products/'.$request->file('image')->hashName();
             $product->save();
         }
        return redirect()->route('products.show', $product)->with('status', 'Product created');
@@ -90,7 +94,7 @@ class ProductController extends Controller
         if ($request->hasFile('image')) {
             $request->file('image')->store('public/products');
 
-            $product->image = asset('storage/products/'.$request->file('image')->hashName());
+            $product->image = 'storage/products/'.$request->file('image')->hashName();
             $product->save();
         }
 
@@ -114,5 +118,18 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('products.index')->with('status', 'Product deleted !');
+    }
+
+    /**
+     * Download the specified resource as a PDF.
+     *
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function download(Product $product)
+    {
+        Mail::to('lorem@ipsum.com')->send(new ProductInfo());
+        $pdf = PDF::loadView('products.pdf', compact('product'));
+        return $pdf->download(Str::slug($product->name).'.pdf');
     }
 }
