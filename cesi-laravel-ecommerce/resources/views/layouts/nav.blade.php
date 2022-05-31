@@ -9,6 +9,9 @@
         <li class="nav-item">
             <a class = "nav-link" href="{{ route('products.index') }}">Liste des Produits</a>
         </li>
+          <li class="nav-item">
+              <a class = "nav-link" href="{{ route('products.create') }}">Créer un Produit</a>
+          </li>
       </ul>
     </div>
   </div>

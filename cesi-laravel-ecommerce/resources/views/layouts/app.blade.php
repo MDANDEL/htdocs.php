@@ -11,6 +11,7 @@
 </head>
 <body>
     @include('layouts.nav')
+    @include('layouts.notify')
 
     <div class="container">
         @yield('content')

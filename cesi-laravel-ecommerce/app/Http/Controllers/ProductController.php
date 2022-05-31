@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
-use http\Env\Response;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -34,7 +33,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('products.create');
     }
 
     /**
@@ -43,9 +42,17 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        $product = Product::create($request->validated());
+        if ($request->hasFile('image')) {
+            $request->file('image')->store('public/products');
+
+            $product->image = asset('storage/products/'.$request->file('image')->hashName());
+            $product->save();
+        }
+       return redirect()->route('products.show', $product)->with('status', 'Product created');
+
     }
 
     /**
@@ -104,6 +111,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return redirect()->route('products.index')->with('status', 'Product deleted !');
     }
 }

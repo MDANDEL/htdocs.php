@@ -3,6 +3,7 @@
 @section('title',  $product->name)
 
 @section('content')
+    <h1>Editer le produit</h1>
     <form action="{{ route('products.update', $product) }}" method="post" enctype="multipart/form-data">
         @method('PUT')
         @csrf
