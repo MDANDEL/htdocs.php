@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -71,13 +72,20 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Product  $product
+     * @param ProductRequest $request
+     * @param \App\Models\Product $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        dd("edit");
+
+        $product->update($request->validated());
+
+        // update des champs du produit un par un :
+        /*$product->name = $request->get('name');
+        $product->save();*/
+
+        dd('Bien joué !');
     }
 
     /**
