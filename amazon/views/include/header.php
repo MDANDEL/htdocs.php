@@ -5,7 +5,7 @@
 <nav>
     <ul>
         <li>
-            <a href="/twitter/list.php">Liste des tweets</a>
+            <a href="/twitter/list.php">Liste des produits</a>
         </li>
         <li>
             <a href="/twitter/contact.php">Nous Contacter </a>

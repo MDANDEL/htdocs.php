@@ -1,11 +1,10 @@
-<!doctype html>
-<html lang="fr">
+<?php include 'include/header.php' ?>
 <head>
     <meta charset="UTF-8">
     <title>Connexion</title>
 </head>
-<body>
-<?php include 'twitter/include/header.php' ?>
+<body> 
+
 
 <h1>Connexion</h1>
 
@@ -17,6 +16,6 @@
     <button type="submit">Me connecter</button>
 </form>
 
-<?php include 'twitter/include/footer.php' ?>
+
 </body>
-</html>
+<?php include 'include/footer.php' ?>

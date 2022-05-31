@@ -41,7 +41,7 @@ require_once 'functions.php';
                 <article>
                     <p><?php echo nl2br(htmlspecialchars($tweet->getMessage())) ?></p>
                     <span><?php echo $tweet->user->screenName ?><br /></span>
-                    <span><?php echo $tweet->like ?><br /></span>
+                    <span data-like="<?php echo $tweet->id ?>"><?php echo $tweet->like ?><br /></span>
 
                     <?php if (isset($_SESSION['loggedUser']) && $_SESSION['loggedUser'] === $tweet->user->username) : ?>
                         <a href="/twitter/delete_tweet.php?id=<?php echo $tweet->id ?>">Supprimer</a>
@@ -65,7 +65,7 @@ require_once 'functions.php';
                 return Response.json();
             })
             .then((json) => {
-                console.log(json.like);
+                document.querySelector(`[data-like="${id}"]`).innerHTML = json.like;
             });
         }
     </script>

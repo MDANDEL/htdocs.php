@@ -9,7 +9,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     if ($user) {
         $_SESSION['loggedUser'] = $username;
         $_SESSION['message'] = "Félicitation ! Vous êtes bien connecté !";
-        header("Location: /amazon/list.php");
+        header("Location: /amazon/index.php");
     }
     else {
         echo "Identifiant ou mot passe incorrect :(";
