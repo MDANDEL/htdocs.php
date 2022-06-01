@@ -12,6 +12,7 @@
         <strong>{{ $product->name }}</strong>
         <p>{{ $product->price / 100 }} €</p>
         <img src= '{{ asset($product->image) }}' alt="imageProduct" width="200">
+        <p>{{ $product->user ? $product->user->name : ''  }}</p>
         <br>
 
         <a href="{{ route('products.show', ['product' => $product]) }}">Voir le produit</a>

@@ -48,7 +48,12 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
+        // meme chose que faite avec associer
+       /* $productToSave = $request->validated();
+        $productToSave['user_id'] = $request->user()->id;*/
+
         $product = Product::create($request->validated());
+        $product->user()->associate($request->user());
         if ($request->hasFile('image')) {
             $request->file('image')->store('public/products');
 

@@ -35,7 +35,7 @@ Route::post('/register', [RegisterController::class, 'register'])->name('registe
 Route::resource('products', ProductController::class);
 
 //les lignes ci dessous refont la même chose que la ligne Route:: ... à garder pour faire d'autres routes
-/*Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
 Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 
@@ -43,14 +43,18 @@ Route::post('/products/', [ProductController::class, 'store'])->name('products.s
 
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
-Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+Route::get('/products/{product}/edit', [ProductController::class, 'edit'])
+    ->name('products.edit')
+    ->middleware('can:update, product');
 
-Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
+Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update')
+    ->name('products.update')
+    ->middleware('can:update, product');
 
-Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');*/
+Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 
 
-Route::middleware(['auth',])->group(function () {
+Route::middleware(['auth','role:admin'])->group(function () {
     Route::get('/products/{product}/download', [ProductController::class, 'download'])->name('products.download');
 
     Route::get('/products/{product}/send-mail', [ProductController::class, 'sendMail'])->name('products.send-mail');

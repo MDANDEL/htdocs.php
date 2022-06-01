@@ -12,9 +12,9 @@
         <br>
 
         <a href="{{ route('products.show', ['product' => $product]) }}">Voir le produit</a>
-
-        <a href="{{ route('products.edit', ['product' => $product]) }}">Editer le produit</a>
-
+        @can('update', $product)
+            <a href="{{ route('products.edit', ['product' => $product]) }}">Editer le produit</a>
+        @endcan
         <a href="{{ route('products.download', ['product' => $product]) }}">Télécharger le produit</a>
 
         <a href="{{ route('products.send-mail', ['product' => $product]) }}">Envoyer eMail</a>
