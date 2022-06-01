@@ -5369,8 +5369,6 @@ __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap
 
 __webpack_require__(/*! bootstrap/dist/css/bootstrap.min.css */ "./node_modules/bootstrap/dist/css/bootstrap.min.css");
 
-console.log('Hello World');
-
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":

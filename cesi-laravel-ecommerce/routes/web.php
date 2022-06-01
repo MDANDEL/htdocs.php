@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,9 +18,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+
+Route::get('/', [PageController::class, 'index'])->name('home');
+
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+
+Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
+
+Route::get('/register', [RegisterController::class, 'index'])->name('register');
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
 Route::resource('products', ProductController::class);
 
@@ -35,10 +49,12 @@ Route::put('/products/{product}', [ProductController::class, 'update'])->name('p
 
 Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');*/
 
-Route::get('/products/{product}/download', [ProductController::class, 'download'])->name('products.download');
 
+Route::middleware(['auth',])->group(function () {
+    Route::get('/products/{product}/download', [ProductController::class, 'download'])->name('products.download');
 
-
+    Route::get('/products/{product}/send-mail', [ProductController::class, 'sendMail'])->name('products.send-mail');
+});
 
 
 

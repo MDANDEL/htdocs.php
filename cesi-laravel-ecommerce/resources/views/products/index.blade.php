@@ -17,6 +17,8 @@
 
         <a href="{{ route('products.download', ['product' => $product]) }}">Télécharger le produit</a>
 
+        <a href="{{ route('products.send-mail', ['product' => $product]) }}">Envoyer eMail</a>
+
         <form action="{{ route('products.destroy', ['product' => $product]) }}" method="post">
             @csrf
             @method('delete')

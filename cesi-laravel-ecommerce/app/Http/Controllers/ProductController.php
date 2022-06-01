@@ -128,8 +128,20 @@ class ProductController extends Controller
      */
     public function download(Product $product)
     {
-        Mail::to('lorem@ipsum.com')->send(new ProductInfo());
         $pdf = PDF::loadView('products.pdf', compact('product'));
         return $pdf->download(Str::slug($product->name).'.pdf');
+    }
+
+    /**
+     * Send Mail.
+     *
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function sendMail(Product $product)
+    {
+        Mail::to('lorem@ipsum.com')->send(new ProductInfo($product));
+
+        return redirect()->route('products.index')->with('status', 'Email sent !');
     }
 }
